@@ -151,11 +151,11 @@ void configure_request(xcb_generic_event_t *evt)
 		height = c->floating_rectangle.height;
 
 		if (e->value_mask & XCB_CONFIG_WINDOW_X) {
-			c->floating_rectangle.x = e->x;
+			c->floating_rectangle.x = e->x - c->border_width;
 		}
 
 		if (e->value_mask & XCB_CONFIG_WINDOW_Y) {
-			c->floating_rectangle.y = e->y;
+			c->floating_rectangle.y = e->y - c->border_width;
 		}
 
 		if (e->value_mask & XCB_CONFIG_WINDOW_WIDTH) {
@@ -170,9 +170,6 @@ void configure_request(xcb_generic_event_t *evt)
 		c->floating_rectangle.width = width;
 		c->floating_rectangle.height = height;
 		xcb_rectangle_t r = c->floating_rectangle;
-
-		r.x -= c->border_width;
-		r.y -= c->border_width;
 
 		window_move_resize(e->window, r.x, r.y, r.width, r.height);
 
