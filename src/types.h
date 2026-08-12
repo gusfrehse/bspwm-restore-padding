@@ -302,6 +302,7 @@ struct monitor_t {
 	xcb_window_t root;
 	bool wired;
 	padding_t padding;
+	padding_t base_padding;
 	unsigned int sticky_count;
 	int window_gap;
 	unsigned int border_width;

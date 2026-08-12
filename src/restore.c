@@ -203,6 +203,13 @@ bool restore_state(const char *file_path)
 		}
 	}
 
+	for (monitor_t *m = mon_head; m != NULL; m = m->next) {
+		m->padding = m->base_padding;
+		for (desktop_t *d = m->desk_head; d != NULL; d = d->next) {
+			arrange(m, d);
+		}
+	}
+
 	ewmh_update_number_of_desktops();
 	ewmh_update_desktop_names();
 	ewmh_update_desktop_viewport();
@@ -267,6 +274,10 @@ monitor_t *restore_monitor(jsmntok_t **t, char *json)
 		} else if (keyeq("padding", *t, json)) {
 			(*t)++;
 			restore_padding(&m->padding, t, json);
+			continue;
+		} else if (keyeq("basePadding", *t, json)) {
+			(*t)++;
+			restore_padding(&m->base_padding, t, json);
 			continue;
 		} else if (keyeq("rectangle", *t, json)) {
 			(*t)++;

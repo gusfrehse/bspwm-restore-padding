@@ -80,6 +80,9 @@ void query_monitor(monitor_t *m, FILE *rsp)
 	fprintf(rsp, "\"padding\":");
 	query_padding(m->padding, rsp);
 	fprintf(rsp,",");
+	fprintf(rsp, "\"basePadding\":");
+	query_padding(m->base_padding, rsp);
+	fprintf(rsp,",");
 	fprintf(rsp, "\"rectangle\":");
 	query_rectangle(m->rectangle, rsp);
 	fprintf(rsp,",");

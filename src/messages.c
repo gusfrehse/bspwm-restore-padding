@@ -1575,15 +1575,17 @@ void set_setting(coordinates_t loc, char *name, char *value, FILE *rsp)
 		}
 		SET_DEF_DEFMON_DESK(window_gap, wg)
 #undef SET_DEF_DEFMON_DESK
-#define SET_DEF_MON_DESK(k, v) \
+#define SET_DEF_MON_DESK(k, bk, v) \
 		if (loc.desktop != NULL) { \
 			loc.desktop->k = v; \
 		} else if (loc.monitor != NULL) { \
 			loc.monitor->k = v; \
+			loc.monitor->bk = v; \
 		} else { \
 			k = v; \
 			for (monitor_t *m = mon_head; m != NULL; m = m->next) { \
 				m->k = v; \
+				m->bk = v; \
 			} \
 		}
 	} else if (streq("top_padding", name)) {
@@ -1592,28 +1594,28 @@ void set_setting(coordinates_t loc, char *name, char *value, FILE *rsp)
 			fail(rsp, "config: %s: Invalid value: '%s'.\n", name, value);
 			return;
 		}
-		SET_DEF_MON_DESK(padding.top, tp)
+		SET_DEF_MON_DESK(padding.top, base_padding.top, tp)
 	} else if (streq("right_padding", name)) {
 		int rp;
 		if (sscanf(value, "%i", &rp) != 1) {
 			fail(rsp, "config: %s: Invalid value: '%s'.\n", name, value);
 			return;
 		}
-		SET_DEF_MON_DESK(padding.right, rp)
+		SET_DEF_MON_DESK(padding.right, base_padding.right, rp)
 	} else if (streq("bottom_padding", name)) {
 		int bp;
 		if (sscanf(value, "%i", &bp) != 1) {
 			fail(rsp, "config: %s: Invalid value: '%s'.\n", name, value);
 			return;
 		}
-		SET_DEF_MON_DESK(padding.bottom, bp)
+		SET_DEF_MON_DESK(padding.bottom, base_padding.bottom, bp)
 	} else if (streq("left_padding", name)) {
 		int lp;
 		if (sscanf(value, "%i", &lp) != 1) {
 			fail(rsp, "config: %s: Invalid value: '%s'.\n", name, value);
 			return;
 		}
-		SET_DEF_MON_DESK(padding.left, lp)
+		SET_DEF_MON_DESK(padding.left, base_padding.left, lp)
 #undef SET_DEF_MON_DESK
 	} else if (streq("top_monocle_padding", name)) {
 		if (sscanf(value, "%i", &monocle_padding.top) != 1) {
